@@ -1,0 +1,12 @@
+[project]
+name = "toolbelt"
+version = "0.1.0"
+description = "Week 1 of the agentic-harness ramp-up: LangChain fundamentals ending in a small CLI assistant"
+requires-python = ">=3.10"
+dependencies = [
+    "langchain>=0.3",
+    "langchain-ollama>=0.2",
+]
+
+[tool.ruff]
+line-length = 100
