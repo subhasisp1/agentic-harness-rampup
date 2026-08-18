@@ -18,9 +18,10 @@ progress.txt         append-only log of completed tasks, decisions, files change
 ## Week 1 — Toolbelt (LangChain)
 
 A small CLI assistant that chats, returns validated JSON when asked, and calls a few
-local tools (calculator, date/time, notes lookup). No web APIs — the LLM runs locally
-via [Ollama](https://ollama.com) (`qwen2.5vl:32b`), or OpenRouter if `OPENROUTER_API_KEY`
-is set.
+local tools (calculator, date/time, notes lookup). The LLM is an Anthropic model
+(`anthropic/claude-haiku-4.5`) reached through [OpenRouter](https://openrouter.ai)'s
+OpenAI-compatible API — set `OPENROUTER_API_KEY` before running. The model lives in
+one place (`week-01-langchain/llm.py`) so swapping it is a one-line change.
 
 - **Tue** — foundations: env, first chat-model call, prompt templates + message roles, first LCEL chain
 - **Wed** — structured output (Pydantic) + first tool call by hand
@@ -32,7 +33,7 @@ is set.
 ```bash
 cd week-01-langchain
 python3 -m venv .venv && .venv/bin/pip install -e .
-# make sure ollama is serving: ollama serve   (model: qwen2.5vl:32b)
+export OPENROUTER_API_KEY=sk-or-...        # https://openrouter.ai/keys
 .venv/bin/python 01_first_chat.py
 .venv/bin/python 02_prompt_templates.py
 .venv/bin/python 03_lcel_chain.py

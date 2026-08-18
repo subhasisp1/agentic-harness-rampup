@@ -4,9 +4,9 @@ A chat model takes messages in and returns an AIMessage — not a bare string.
 `.invoke()` with a plain string is shorthand for a single human message.
 """
 
-from langchain_ollama import ChatOllama
+from llm import get_llm
 
-llm = ChatOllama(model="qwen2.5vl:32b", temperature=0)
+llm = get_llm()
 
 reply = llm.invoke("In one sentence: what is an agentic AI harness?")
 

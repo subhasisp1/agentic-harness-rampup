@@ -7,23 +7,46 @@ call tools in a loop, give it memory, constrain it. Week 1 is LangChain, and tod
 the bottom rung: talk to a model, control the prompt, chain the pieces.
 
 Setup: one repo for the whole ramp-up (a folder per week), a venv with `langchain` +
-`langchain-ollama`, and a fully local LLM — Ollama serving `qwen2.5vl:32b` on my
-RTX 5090. No API keys needed today (OpenRouter stays as a fallback via env var).
+`langchain-openai`, and the LLM = **Anthropic's `claude-haiku-4.5` via OpenRouter**.
+OpenRouter speaks the OpenAI wire format, so LangChain needs no special integration —
+`ChatOpenAI` with a different `base_url`:
+
+```python
+# llm.py — the model lives in ONE place; swapping it is a one-line change
+from langchain_openai import ChatOpenAI
+
+MODEL = "anthropic/claude-haiku-4.5"
+
+def get_llm(temperature=0):
+    return ChatOpenAI(
+        model=MODEL,
+        base_url="https://openrouter.ai/api/v1",
+        api_key=os.environ["OPENROUTER_API_KEY"],   # never hard-coded, never committed
+        temperature=temperature,
+    )
+```
+
+(Confession: the first version of today ran on a local Ollama `qwen2.5vl:32b`. It
+worked — after a 33.5B model taught me that Ollama's default 32k context adds an 8 GB
+KV cache and OOM-kills the loader on a 31 GiB card. We switched to OpenRouter the same
+day: one hosted API, stronger model, and the whole "which GPU, which context length"
+class of problems disappears for the price of an env var. The local-model option keeps
+living in `git log`.)
 
 ## 1. A chat model call is messages in, message out
 
 ```python
-from langchain_ollama import ChatOllama
+from llm import get_llm
 
-llm = ChatOllama(model="qwen2.5vl:32b", temperature=0)
+llm = get_llm()
 reply = llm.invoke("In one sentence: what is an agentic AI harness?")
 ```
 
 The thing that comes back is not a string — it's an `AIMessage`, carrying `content`
-plus metadata (my call: 31 input tokens, 43 output). `.invoke("...")` with a bare
-string is just shorthand for one human message. That framing matters for everything
-later: a *chat* model's native interface is a **list of role-tagged messages**, which
-is exactly the shape an agent's action/observation loop will need.
+plus metadata like token usage. `.invoke("...")` with a bare string is just shorthand
+for one human message. That framing matters for everything later: a *chat* model's
+native interface is a **list of role-tagged messages**, which is exactly the shape an
+agent's action/observation loop will need.
 
 ## 2. Message roles, then templates
 
@@ -53,10 +76,10 @@ prompt = ChatPromptTemplate([
 rendered = prompt.invoke({"language": "English", "acronym": "LCEL"})
 ```
 
-Honest footnote: asked what LCEL stands for, my local 32B model confidently answered
-*"Low-Cost Embedded Linux."* It's the LangChain Expression Language. Good early
-reminder of why the harness will need validation and constraints around the model —
-fluent ≠ correct, especially for smaller local models.
+Honest footnote from the local-model detour: asked what LCEL stands for, the 32B local
+model confidently answered *"Low-Cost Embedded Linux."* It's the LangChain Expression
+Language. Good early reminder of why the harness will need validation and constraints
+around the model — fluent ≠ correct.
 
 ## 3. The first chain
 
@@ -76,14 +99,14 @@ string glue.
 ## Things that bit me
 
 - **LangChain 1.x, not 0.3.** `pip install langchain` now lands 1.3.x. Fine for today
-  (templates and LCEL live in `langchain_core`), but Thursday's plan mentions
+  (templates and LCEL live in `langchain_core`), but Thursday's plan mentioned
   `create_tool_calling_agent` + `AgentExecutor` — those are gone in 1.x, replaced by
   `create_agent`. Plan adjusted.
 - **`StrOutputParser` returns a `TextAccessor`**, not a bare `str` — it *is* a `str`
   subclass, so nothing breaks, but the type surprised me in the printout.
-- **VRAM math.** A 33.5B Q4 model is ~21 GB of weights; Ollama's default 32k context
-  added an 8 GB KV cache and the loader got OOM-killed on a 31 GiB card. Fix:
-  `OLLAMA_CONTEXT_LENGTH=8192` — plenty for this week, and everything fits on-GPU.
+- **Local-model VRAM math** (pre-switch): a 33.5B Q4 model is ~21 GB of weights, and
+  the default 32k context added an 8 GB KV cache — `OLLAMA_CONTEXT_LENGTH=8192` was
+  the fix. Kept here because the lesson generalizes: context length is memory.
 
 **Tomorrow:** structured output with Pydantic (`.with_structured_output()`) and the
 first tool call, run by hand — the model *asks* for a tool, I execute it, feed the

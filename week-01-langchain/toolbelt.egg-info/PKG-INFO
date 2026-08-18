@@ -4,4 +4,4 @@ Version: 0.1.0
 Summary: Week 1 of the agentic-harness ramp-up: LangChain fundamentals ending in a small CLI assistant
 Requires-Python: >=3.10
 Requires-Dist: langchain>=0.3
-Requires-Dist: langchain-ollama>=0.2
+Requires-Dist: langchain-openai>=0.3

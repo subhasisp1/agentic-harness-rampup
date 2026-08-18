@@ -7,7 +7,8 @@ The chain is a value — call .invoke() on it with different inputs.
 
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama import ChatOllama
+
+from llm import get_llm
 
 prompt = ChatPromptTemplate(
     [
@@ -15,7 +16,7 @@ prompt = ChatPromptTemplate(
         ("human", "Explain {topic}."),
     ]
 )
-llm = ChatOllama(model="qwen2.5vl:32b", temperature=0)
+llm = get_llm()
 
 chain = prompt | llm | StrOutputParser()
 

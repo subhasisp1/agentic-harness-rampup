@@ -10,9 +10,10 @@ BEFORE anything is sent to the model.
 
 from langchain_core.messages import AIMessage, HumanMessage, SystemMessage
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_ollama import ChatOllama
 
-llm = ChatOllama(model="qwen2.5vl:32b", temperature=0)
+from llm import get_llm
+
+llm = get_llm()
 
 # --- Part A: explicit messages, one per role ---
 messages = [
