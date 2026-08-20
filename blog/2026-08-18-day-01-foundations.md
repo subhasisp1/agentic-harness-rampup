@@ -7,7 +7,7 @@ let it call tools in a loop, give it memory, keep it constrained. Week 1 is
 LangChain, and today was the bottom rung: talk to a model, control the
 prompt, chain the pieces.
 
-Setup is deliberately boring: one repo for the ramp-up (a folder per week),
+Setup: one repo for the ramp-up (a folder per week),
 a venv, and **`claude-haiku-4.5` via OpenRouter**. OpenRouter speaks the
 OpenAI wire format, so `ChatOpenAI` works as-is with a different `base_url`:
 
@@ -17,15 +17,15 @@ def get_llm(temperature=0):
     return ChatOpenAI(
         model="anthropic/claude-haiku-4.5",
         base_url="https://openrouter.ai/api/v1",
-        api_key=os.environ["OPENROUTER_API_KEY"],  # never committed
+        api_key=os.environ["OPENROUTER_API_KEY"],
         temperature=temperature,
     )
 ```
 
-(Confession: I started the day on a local Ollama model. It worked — after
+(Confession: I started with a local Ollama model. It worked — after
 teaching me that Ollama's default 32k context adds an 8 GB KV cache and
-OOM-kills the loader on a 31 GiB card. By evening I'd swapped to OpenRouter:
-one env var instead of a GPU-babysitting hobby. The local setup lives on in
+OOM-kills the loader on a 31 GiB card. Then I swapped to OpenRouter:
+one env var instead of a local model. The local setup lives on in
 `git log`.)
 
 ## Messages in, message out
@@ -62,10 +62,10 @@ chain.invoke({"topic": "prompt templates", "n_sentences": 1})
 ```
 
 Every stage speaks `.invoke()`: dict → messages → `AIMessage` → string. The
-chain is a value — build once, call with anything. Squint and it's the first
-harness primitive: a typed pipeline instead of string glue.
+chain is a value — build once, call with anything. It's the first
+harness primitive: a typed pipeline.
 
-## Things that bit me
+## Things that took time
 
 - `pip install langchain` now lands **1.x**, and Thursday's planned
   `AgentExecutor` is gone — it's `create_agent` now. Plan adjusted.

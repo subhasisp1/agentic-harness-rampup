@@ -1,9 +1,9 @@
-# Day 2 — Typed answers, and the model asks me to do things
+# Day 2 — Typed answers, and the tool calls
 
 *Agentic-harness ramp-up, Week 1 ("Toolbelt"), Wednesday.*
 
 Yesterday one of the models told me, with total confidence, that LCEL stands for
-"Low-Cost Embedded Linux". Today is the antidote: stop trusting free text,
+"Low-Cost Embedded Linux". Today is the fix to that: stop trusting free text,
 and make the model's output pass through a schema.
 
 ## Structured output: a validated object
@@ -20,13 +20,12 @@ out = llm.invoke("What does LCEL stand for?")
 # Acronym(acronym='LCEL', expansion='LangChain Expression Language', ...)
 ```
 
-What comes back isn't a string I have to squint at — it's a Pydantic
+What comes back isn't a string I have to look at — it's a Pydantic
 instance. Wrong field, wrong type, confidence of 7? `ValidationError`,
 loudly, instead of junk flowing silently downstream. Under the hood
-LangChain uses the model's tool-calling machinery to force the shape,
-which is a nice segue, because...
+LangChain uses the model's tool-calling machinery to force the shape.
 
-## The first tool call, unrolled by hand
+## The first tool call, defined manually
 
 I wanted to see the agent loop with my own eyes before any framework runs
 it for me. So: one tool, one turn, no magic.
@@ -53,7 +52,7 @@ Model proposes, my code disposes. That division of labor is the whole
 safety story of a harness: the model never touches the world directly, it
 only fills in arguments for functions I chose to expose.
 
-## Gotchas
+## Lessons learnt
 
 - `bind_tools` doesn't force a tool call — ask something chatty and you get
   a normal answer with empty `tool_calls`. Check the list, don't assume.
