@@ -8,7 +8,7 @@ LangChain, and today was the bottom rung: talk to a model, control the
 prompt, chain the pieces.
 
 Setup: one repo for the ramp-up (a folder per week),
-a venv, and **`claude-haiku-4.5` via OpenRouter**. OpenRouter speaks the
+a venv, and **`claude-haiku-4.5` via OpenRouter**. OpenRouter has the
 OpenAI wire format, so `ChatOpenAI` works as-is with a different `base_url`:
 
 ```python
