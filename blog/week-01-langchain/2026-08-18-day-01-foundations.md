@@ -4,7 +4,7 @@
 
 The whole program points at one thing: an agentic harness. Prompt a model,
 let it call tools in a loop, give it memory, keep it constrained. Week 1 is
-LangChain, and today was the bottom rung: talk to a model, control the
+LangChain, and today was the first task: talk to a model, control the
 prompt, chain the pieces.
 
 Setup: one repo for the ramp-up (a folder per week),
