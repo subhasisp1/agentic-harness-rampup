@@ -22,7 +22,7 @@ def get_llm(temperature=0):
     )
 ```
 
-(Confession: I started with a local Ollama model. It worked — after
+(Note: I started with a local Ollama model. It worked — after
 teaching me that Ollama's default 32k context adds an 8 GB KV cache and
 OOM-kills the loader on a 31 GiB card. Then I swapped to OpenRouter:
 one env var instead of a local model. The local setup lives on in
