@@ -3,9 +3,6 @@
 A weekly learn-in-public program working toward building an **agentic AI harness**:
 prompt the model → let it call tools in a loop → give it memory → constrain it.
 
-Each week: one small app with an agreed library, ~2–4 hrs/day, a short daily blog post,
-and something runnable by Friday.
-
 ## Layout
 
 ```
