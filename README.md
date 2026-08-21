@@ -11,7 +11,6 @@ and something runnable by Friday.
 ```
 week-01-langchain/   Week 1 — "Toolbelt": LangChain fundamentals ending in a simple agent
 blog/                daily posts (Markdown, one folder per week, one file per day)
-prd.json             this week's PRD items with verification steps (Ralph-loop style)
 ```
 
 ## Week 1 — Toolbelt (LangChain)
