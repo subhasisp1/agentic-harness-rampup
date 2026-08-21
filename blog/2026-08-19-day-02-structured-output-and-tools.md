@@ -1,4 +1,4 @@
-# Day 2 — Typed answers, and the tool calls
+# Day 2: Typed answers, and the tool calls
 
 *Agentic-harness ramp-up, Week 1 ("Toolbelt"), Wednesday.*
 
@@ -20,7 +20,7 @@ out = llm.invoke("What does LCEL stand for?")
 # Acronym(acronym='LCEL', expansion='LangChain Expression Language', ...)
 ```
 
-What comes back isn't a string I have to look at — it's a Pydantic
+What comes back isn't a string I have to look at. It's a Pydantic
 instance. Wrong field, wrong type, confidence of 7? `ValidationError`,
 loudly, instead of junk flowing silently downstream. Under the hood
 LangChain uses the model's tool-calling machinery to force the shape.
@@ -43,7 +43,7 @@ print(ai.tool_calls)
 ```
 
 The part that clicked: the model doesn't *run* anything. It answers with a
-request — "please call `calculator` with these args" — and then just sits
+request, "please call `calculator` with these args", and then just sits
 there. I execute the function in plain Python, wrap the result in a
 `ToolMessage`, send the whole conversation back, and *now* it answers with
 the real number instead of an LLM's idea of arithmetic.
@@ -54,13 +54,14 @@ only fills in arguments for functions I chose to expose.
 
 ## Lessons learnt
 
-- `bind_tools` doesn't force a tool call — ask something chatty and you get
+- `bind_tools` doesn't force a tool call: if I ask something chatty I get
   a normal answer with empty `tool_calls`. Check the list, don't assume.
 - The `ToolMessage` needs the `tool_call_id` from the request, or the model
   can't match result to question.
 - My calculator is `eval` with builtins stripped. Fine for a demo, and a
   preview of a real harness concern: every tool is attack surface.
 
-**Tomorrow:** wrap this request→execute→respond cycle in a loop and let it
-run itself — `create_agent` (LangChain 1.x retired the old `AgentExecutor`).
-That's the day this thing starts deserving the word "agent".
+**Tomorrow:** I wrap this request→execute→respond cycle in a loop and let
+it run itself with `create_agent` (LangChain 1.x retired the old
+`AgentExecutor`). That's the day this thing starts deserving the word
+"agent".

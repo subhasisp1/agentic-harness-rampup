@@ -1,4 +1,4 @@
-# Day 3 — The loop runs itself
+# Day 3: The loop runs itself
 
 *Agentic-harness ramp-up, Week 1 ("Toolbelt"), Thursday.*
 
@@ -32,7 +32,7 @@ A one-tool question would finish in a single pass, so the test question
 forces a sequence: *"According to my notes, how many GB of VRAM headroom
 were left on the GPU with the weights and the 32k-context KV cache
 loaded?"* The agent has to read the notes file first, then hand the
-numbers to the calculator — it can't skip a step.
+numbers to the calculator; it can't skip a step.
 
 ```python
 for step in agent.stream({"messages": [("human", question)]},
@@ -43,7 +43,7 @@ for step in agent.stream({"messages": [("human", question)]},
 The streamed trace shows each turn of the loop: the question, a
 `read_notes` call, the file content coming back, a `calculator` call with
 `31 - (21 + 8)`, the result `2`, and then the final sentence using it.
-The numbers are the Day-1 OOM story, now answered by the agent instead
+The numbers are the Day-1 OOM story; now the agent answers it instead
 of me.
 
 `recursion_limit` is the guardrail: if the model kept requesting tools
@@ -53,11 +53,11 @@ tokens. First constraint of the harness, one config key.
 ## Lessons learnt
 
 - The system prompt does real work. Without "do all arithmetic with the
-  calculator", the model happily does the subtraction itself — correct
-  here, but the habit I want is: facts and math come from tools.
+  calculator", the model happily does the subtraction itself. That is
+  correct here, but the habit I want is: facts and math come from tools.
 - `stream_mode="values"` emits the full message list each step; printing
   only the last message per step gives a clean trace of the loop.
-- The agent input is `{"messages": [...]}`, not a bare string — the state
+- The agent input is `{"messages": [...]}`, not a bare string. The state
   the graph carries is a conversation, which is exactly what Friday's
   memory work will build on.
 
