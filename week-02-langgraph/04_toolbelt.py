@@ -1,14 +1,3 @@
-"""Day 4: Toolbelt on LangGraph, with memory that survives a restart.
-
-The Day 3 loop as a CLI, with two changes. SqliteSaver replaces
-InMemorySaver, so a conversation lives in toolbelt.sqlite next to this file
-and continues after a restart. --thread names the conversation, so several
-can exist side by side; --budget sets the tool-call budget per turn. If the
-last session ended in the middle of an approval, the paused run is finished
-first, so the history never carries a tool call without a result. Exit with
-'exit', 'quit' or Ctrl-D.
-"""
-
 import argparse
 from pathlib import Path
 
