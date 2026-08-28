@@ -1,13 +1,4 @@
 """The Toolbelt graph as a module, shared by the Day 3 and Day 4 scripts.
-
-Day 2's graph (router, chat, model + tools loop, JSON answer, budget stop)
-with the two changes that a checkpointer forces. The tool node pauses with
-interrupt() once per proposed call and waits for a yes or no; a rejected
-call still gets a ToolMessage so the history stays valid. And the router
-resets the tool-call counter at the start of every turn: the state now
-outlives a run, so a per-turn budget has to be reset per turn, or the
-conversation would go dead after the third tool call. interrupt() needs a
-checkpointer, so build_graph() requires one.
 """
 
 from typing import Annotated, Literal, TypedDict
