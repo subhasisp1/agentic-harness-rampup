@@ -1,14 +1,3 @@
-"""Day 2: state is a schema, edges are decisions.
-
-Yesterday's state was only the message list. Today it gains fields of its
-own: the router's decision, a count of tool calls made, and a budget for
-them. A router node runs first and picks one of three paths: plain chat,
-yesterday's tool loop, or a validated JSON answer (Week 1 Day 2's structured
-output as its own node). The runaway guardrail moves out of recursion_limit
-and into the state: once the budget is spent, a stop node refuses further
-tool calls and the run ends. Four runs show the four paths.
-"""
-
 import operator
 from typing import Annotated, Literal, TypedDict
 
