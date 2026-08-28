@@ -1,12 +1,3 @@
-"""Day 1: the graph by hand.
-
-Last week create_agent returned a compiled LangGraph. This is that graph written
-out: the state is the message list, one node calls the model, one node runs the
-tools the model asked for, and one conditional edge decides between running
-tools and ending. Same tools and question as Week 1 Day 3, so the answer
-(2 GB of headroom) should match. Prints the graph as a Mermaid diagram, then
-the trace node by node.
-"""
 
 from datetime import datetime, timezone
 from pathlib import Path
