@@ -1,0 +1,16 @@
+[project]
+name = "toolbelt-langgraph"
+version = "0.1.0"
+description = "Week 2 of the agentic-harness ramp-up: the Toolbelt agent loop rebuilt by hand on LangGraph"
+requires-python = ">=3.10"
+dependencies = [
+    "langgraph>=1.0",
+    "langchain-openai>=1.0",
+    "langgraph-checkpoint-sqlite>=3.0",
+]
+
+[tool.setuptools]
+py-modules = ["llm", "tools", "graph"]
+
+[tool.ruff]
+line-length = 100
