@@ -1,14 +1,3 @@
-"""Day 3: model proposes, human approves, code runs.
-
-The tool node now calls interrupt() before running anything. The graph
-stops, the checkpointer saves the state, and invoke() returns with an
-__interrupt__ entry that describes the proposed call. This script prints
-it, asks y/n, and resumes with Command(resume=answer). A rejected call gets
-a ToolMessage saying so, and the model answers with what it has. One
-question, two tool calls, two approvals. InMemorySaver means the pause
-lives only inside this process; Day 4 makes it survive a restart.
-"""
-
 from langgraph.checkpoint.memory import InMemorySaver
 from langgraph.types import Command
 
