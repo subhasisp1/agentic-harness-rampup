@@ -1,9 +1,5 @@
 """The Toolbelt's three local tools, shared by the week-2 scripts.
-
-Same tools as week 1: a toy calculator (eval with builtins stripped), the
-current local date and time, and the hardware notes file. TOOLS maps each
-tool's name to the tool, which is how the tool node looks up what the
-model asked for.
+Same tools as week 1
 """
 
 from datetime import datetime, timezone
