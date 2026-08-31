@@ -1,5 +1,4 @@
-"""The Toolbelt's three local tools, shared by the week-2 scripts.
-Same tools as week 1
+"""The Toolbelt's three local tools.
 """
 
 from datetime import datetime, timezone
