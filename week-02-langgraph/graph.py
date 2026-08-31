@@ -1,4 +1,4 @@
-"""The Toolbelt graph as a module, shared by the Day 3 and Day 4 scripts.
+"""The Toolbelt graph as a module.
 """
 
 from typing import Annotated, Literal, TypedDict
