@@ -1,0 +1,22 @@
+{
+  "servers": {
+    "toolbelt": {
+      "transport": "stdio",
+      "command": ".venv/bin/python",
+      "args": ["toolbelt_server.py"]
+    },
+    "files": {
+      "transport": "stdio",
+      "command": ".venv/bin/python",
+      "args": ["files_server.py"]
+    },
+    "fetch": {
+      "transport": "stdio",
+      "command": ".venv-client/bin/python",
+      "args": ["-m", "mcp_server_fetch"]
+    }
+  },
+  "policy": {
+    "auto": ["calculator", "current_datetime", "read_notes", "list_files", "read_file"]
+  }
+}

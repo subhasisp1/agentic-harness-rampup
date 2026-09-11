@@ -1,0 +1,9 @@
+# The client/graph side, installed in .venv-client. Kept out of pyproject.toml on
+# purpose: langchain-mcp-adapters pins mcp<2, while the server venv (.venv) runs
+# the mcp 2.x SDK. Two processes, two SDK generations, one protocol.
+# Python 3.11+ required: interrupt() under ainvoke needs contextvar propagation
+# into tasks (worked on 3.10 in week 2 only because everything was sync invoke).
+# .venv-client runs CPython 3.12 installed with uv.
+langgraph>=1.0
+langchain-openai>=1.0
+langchain-mcp-adapters>=0.3

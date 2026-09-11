@@ -1,0 +1,14 @@
+[project]
+name = "toolbelt-mcp"
+version = "0.1.0"
+description = "Week 3 of the agentic-harness ramp-up: the Toolbelt tools served over MCP"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=2.1",
+]
+
+[tool.setuptools]
+py-modules = ["toolbelt_server", "files_server", "llm", "graph"]
+
+[tool.ruff]
+line-length = 100

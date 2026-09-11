@@ -1,4 +1,6 @@
 .venv/
+.venv-client/
+sandbox/
 __pycache__/
 *.pyc
 .env
