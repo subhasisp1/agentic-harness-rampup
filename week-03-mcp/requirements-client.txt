@@ -7,3 +7,6 @@
 langgraph>=1.0
 langchain-openai>=1.0
 langchain-mcp-adapters>=0.3
+langgraph-checkpoint-sqlite>=3.0
+# the third-party server from day 4; it pins mcp<2, so it lives here and not in the server venv
+mcp-server-fetch
