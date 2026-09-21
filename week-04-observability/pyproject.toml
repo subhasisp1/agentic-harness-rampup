@@ -1,0 +1,14 @@
+[project]
+name = "toolbelt-observability"
+version = "0.1.0"
+description = "Week 4 of the agentic-harness ramp-up: tracing, cost accounting and an eval suite for the Toolbelt"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=2.1",
+]
+
+[tool.setuptools]
+py-modules = ["toolbelt_server", "files_server"]
+
+[tool.ruff]
+line-length = 100

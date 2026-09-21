@@ -1,0 +1,5 @@
+Hardware notes — local LLM experiment (Day 1)
+GPU: RTX 5090, vram_gb = 31
+qwen2.5vl:32b Q4 weights: weights_gb = 21
+KV cache at 32k context: kv_cache_gb = 8
+Fix that day: OLLAMA_CONTEXT_LENGTH=8192 shrinks the KV cache to ~2 GB

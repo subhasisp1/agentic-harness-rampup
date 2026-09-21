@@ -9,6 +9,7 @@ prompt the model → let it call tools in a loop → give it memory → constrai
 week-01-langchain/   Week 1 — "Toolbelt": LangChain fundamentals ending in a simple agent
 week-02-langgraph/   Week 2: the same Toolbelt with the agent loop written by hand in LangGraph
 week-03-mcp/         Week 3: the same Toolbelt with every tool served over MCP
+week-04-observability/  Week 4: the same Toolbelt, traced, costed and covered by an eval suite
 blog/                daily posts (Markdown, one folder per week, one file per day)
 ```
 
@@ -103,3 +104,39 @@ export OPENROUTER_API_KEY=sk-or-...
 
 Conversations are stored in `week-03-mcp/toolbelt.sqlite`; the file tools only touch
 `week-03-mcp/sandbox/`. Neither is committed.
+
+## Week 4: measuring the Toolbelt
+
+The same assistant, instrumented. A callback handler turns every node, model call and tool call
+into a span, so a run prints as a tree with durations and token counts. A price table turns those
+tokens into dollars, SQLite keeps the runs so one can be compared with the last, and the same
+spans export as OpenTelemetry.
+
+Nothing about the assistant changed this week. What changed is that its behaviour and its cost
+became visible.
+
+- **Tue**: the trace by hand: a callback handler, spans, and a run printed as a tree
+- **Wed**: tokens off `usage_metadata`, a price table, cost per run and per node
+- **Thu**: traces kept in SQLite, so runs can be compared instead of remembered
+- **Fri**: the same spans as OpenTelemetry, and a cost meter on the chat CLI
+
+### Running week 4
+
+```bash
+cd week-04-observability
+python3 -m venv .venv && .venv/bin/pip install -e .            # server side (mcp 2.x)
+uv venv .venv-client --python 3.12                             # client side (needs 3.11+)
+uv pip install -p .venv-client/bin/python -r requirements-client.txt
+export OPENROUTER_API_KEY=sk-or-...
+.venv-client/bin/python 01_trace_a_run.py         # Tue: the run as a tree of spans
+.venv-client/bin/python 02_what_a_turn_costs.py   # Wed: chat vs tools vs json, split per node
+.venv-client/bin/python 03_compare_runs.py        # Thu: two runs, stored and compared
+.venv-client/bin/python 04_opentelemetry.py       # Fri: the same spans in the standard's form
+.venv-client/bin/python toolbelt.py --trace       # the chat CLI, with a cost meter per turn
+```
+
+`tracing.py` is the tracer and the cost maths, `trace_store.py` the SQLite store, `otel.py` the
+OpenTelemetry export, and `harness.py` loads `servers.json`. `toolbelt.py` is the assistant
+itself, carried over from week 3: `--trace` prints what each turn used and cost and appends it to
+`traces.sqlite`, `--tree` prints the span tree as well, and without either flag it behaves exactly
+as week 3's CLI did. Traces are written to `week-04-observability/traces.sqlite`, not committed.

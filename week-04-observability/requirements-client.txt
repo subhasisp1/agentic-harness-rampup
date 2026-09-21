@@ -1,0 +1,10 @@
+# The client side, installed in .venv-client (CPython 3.12 via uv).
+# Same two-venv split as week 3: the servers run on the mcp 2.x SDK in .venv, while
+# langchain-mcp-adapters pins mcp<2, and interrupt() under an async graph needs
+# Python 3.11+. This week adds OpenTelemetry for the standard form of the tracer.
+langgraph>=1.0
+langchain-openai>=1.0
+langchain-mcp-adapters>=0.3
+langgraph-checkpoint-sqlite>=3.0
+mcp-server-fetch
+opentelemetry-sdk>=1.40
